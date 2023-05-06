@@ -1,0 +1,38 @@
+# Python-related files and directories
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyz
+*.pyzw
+*.egg-info/
+dist/
+build/
+.venv/
+env/
+
+# Node.js and Vite-related files and directories
+node_modules/
+/dist
+.cache
+
+# IDE-specific files and directories
+.vscode/
+.idea/
+
+# Compiled files
+*.log
+*.swp
+*.swo
+*.bak
+
+# Other build artifacts
+*.log
+*.out
+*.zip
+*.tar.gz
+
+# MariaDB and SQLAlchemy-related files
+*.db
+*.sql
+*/migrations/versions/*
