@@ -75,7 +75,7 @@ def get_one_barang(kd_barang) -> Response | tuple[Response, Literal[404]] | tupl
     return jsonify({"error": f"An error occurred while retrieving data: {e}"}), 500
 
 
-# Buat endpoint untuk mengubah data barang
+# Buat endpoint untuk mengubah data barang 
 @barang_controller.route("/barang/<string:kd_barang>", methods=["PUT"])
 def update_barang(kd_barang) -> Response | tuple[Response, Literal[404]] | tuple[Response, Literal[500]]:
   
