@@ -25,7 +25,7 @@ def add_barang() -> Response | tuple[Response, Literal[500]]:
     session.commit()
 
     # Ubah data yang sudah diambil menjadi bentuk JSON
-    return jsonify(barang)
+    return jsonify({ "message": "Data added!", "data": barang.get() })
   
   # Jika terjadi error, tampilkan pesan error
   except Exception as e:
@@ -88,31 +88,41 @@ def update_barang(kd_barang) -> Response | tuple[Response, Literal[404]] | tuple
   
     # Jika barang tidak ditemukan, tampilkan error 404
     if not barang:
-      return jsonify({"error": "Barang not found!"}), 404
+      return jsonify({ "error": "Barang not found!" }), 404
   
     # Ubah data barang yang sudah diambil
     barang.nama_barang = data["nama_barang"]
     session.commit()
   
     # Ubah data yang sudah diambil menjadi bentuk JSON
-    return jsonify(barang.get())
+    return jsonify({ "message": "Data updated!", "data": barang.get() })
   
   # Jika terjadi error, tampilkan pesan error-nya
   except Exception as e:
     print(f"Error occurred while retrieving data: {e}")
-    return jsonify({"error": f"An error occurred while updating data: {e}"}), 500
+    return jsonify({ "error": f"An error occurred while updating data: {e}" }), 500
 
 
-# Buat endpoint untuk menghapus data barang (NOT TESTED)
+# Buat endpoint untuk menghapus data barang
 @barang_controller.route("/barang/<string:kd_barang>", methods=["DELETE"])
-def delete_barang(kd_barang) -> Response:
+def delete_barang(kd_barang) -> Response | tuple[Response, Literal[404]] | tuple[Response, Literal[500]] :
     
+  try:
     # Jalankan query untuk mengambil data barang
     barang: Any = session.query(BarangModel).filter(BarangModel.kd_barang == kd_barang).first()
     
+    # Jika barang tidak ditemukan, tampilkan error 404
+    if not barang:
+      return jsonify({"error": "Barang not found!"}), 404
+
     # Hapus data barang yang sudah diambil
     session.delete(barang)
     session.commit()
     
     # Ubah data yang sudah diambil menjadi bentuk JSON
-    return jsonify(barang)
+    return jsonify({ "message": "Data deleted!", "data": barang.get() })
+  
+  # Jika terjadi error, tampilkan pesan error-nya
+  except Exception as e:
+    print(f"Error occurred while retrieving data: {e}")
+    return jsonify({ "error": f"An error occurred while updating data: {e}" }), 500
